@@ -88,9 +88,9 @@
         env:
             DB_HOST: 127.0.0.1
             DB_PORT: 3306
-            DB_NAME: ${{ secrets.DB_NAME }}
-            DB_USER: ${{ secrets.DB_USER }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            DB_NAME: mabase
+            DB_USER: root
+            DB_PASSWORD: root
 
   # start uniquement si les test unitaires on etaient valider ou non
   # branche donc la db a l'image docker une fois son test unitaire passer pour voir si le reseau fonctionne
@@ -135,9 +135,9 @@
         env:
             DB_HOST: 127.0.0.1
             DB_PORT: 3306
-            DB_NAME: ${{ secrets.DB_NAME }}
-            DB_USER: ${{ secrets.DB_USER }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            DB_NAME: mabase
+            DB_USER: root
+            DB_PASSWORD: root
 
       - name: Shut down servie
         run: docker compose -f ../docker-compose.yaml down
