@@ -13,6 +13,7 @@
       branches:
         - main
 
+
   # on (OK) on demande donc quoi faire
   jobs:
     frontend-test:
@@ -59,7 +60,7 @@
 
           ports:
             - 3006:3306
-          options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+          options: --health-cmd="mariadb-admin ping -proot" --health-interval=10s --health-timeout=5s --health-retries=3
 
       steps:
       - name: checkout backend
@@ -104,7 +105,7 @@
 
           ports:
             - 3006:3306
-          options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+          options: --health-cmd="mariadb-admin ping -proot" --health-interval=10s --health-timeout=5s --health-retries=3
 
       steps:
       - name: checkout backend unit
