@@ -1,9 +1,3 @@
-Tu as **parfaitement compris** le concept. Ton explication est fluide, logique et résume exactement ce qu'est une démarche DevOps moderne.
-
-Pour te donner mon feedback : tu as très bien saisi l'enchaînement des étapes. La CI (*Continuous Integration*) sert exactement à ça : agir comme une **barrière de sécurité (ton "feu vert")** automatique. Si un développeur casse quelque chose dans les tests unitaires ou d'intégration, le pipeline bloque et on évite de packager et de déployer une application qui buggue. C'est l'état de l'art !
-
-Puisque tu as maintenant un pipeline complet et fonctionnel, voici un **README.md** professionnel, clair et ultra-visuel pour mettre en valeur ton projet sur GitHub.
-
 ---
 
 # Automated DevOps Workflow : CI/CD Pipeline
@@ -34,7 +28,7 @@ Le workflow est configuré dans le fichier `.github/workflows/ci.yaml` et s'encl
 
 Il est découpé en 4 jobs interdépendants :
 
-![github recover](/Desktop//pipeline.png)
+![github recover](./asset_doc/pipeline.png)
 
 
 ### 1. 🧪 Tests Unitaires (`frontend-test` & `backend-test`)
@@ -54,7 +48,7 @@ Il est découpé en 4 jobs interdépendants :
 * Les images sont automatiquement taguées (`latest` et `SHA du commit`) puis poussées sur le registre sécurisé de GitHub : **GHCR (GitHub Container Registry)**.
 
 
-![github recover](/Desktop//recover.png)
+![github recover](./aset_doc/recover.png)
 
 ---
 
