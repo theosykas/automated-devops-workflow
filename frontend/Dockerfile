@@ -9,8 +9,9 @@ RUN npm run build --if-present
 
 # Étape 2 : Serveur web léger pour distribuer le front
 FROM nginx:alpine
+
 # Copie les fichiers buildés dans le dossier public d'Nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 # Ou si tu utilises Vite/Next, adapte le chemin (ex: /app/dist)
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
