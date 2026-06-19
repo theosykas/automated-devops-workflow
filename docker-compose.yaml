@@ -15,6 +15,7 @@ services:
   backend:
     # --- CHANGE ICI TON PSEUDO ET TON DEPOT ---
     image: ghcr.io/ton-pseudo/ton-depot/backend:latest
+    build: ./backend
     environment:
       DB_HOST: database # Le nom du service MariaDB
       DB_PORT: 3306
@@ -32,6 +33,7 @@ services:
   frontend:
     # --- CHANGE ICI TON PSEUDO ET TON DEPOT ---
     image: ghcr.io/thsykas/automated-devops-workflow/frontend:latest
+    build: ./frontend
     ports:
       - 8080:80 # On expose le front sur le port 8080 de ton PC
     networks:
