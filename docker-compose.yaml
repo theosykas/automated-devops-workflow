@@ -1,24 +1,42 @@
 version: '3.8'
 
 services:
-  backend-app:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: my_backend_app
-    ports:
-      - "3000:3000"
-    networks:
-      - github_network # On connecte ton app à ce réseau
+  # 1. Ta base de données MariaDB
+  database:
+    image: mariadb:10.11
     environment:
-      - PORT=3000
-      - DB_HOST=mariadb # IMPORTANT : Dans le même réseau Docker, le Host devient le nom du service GitHub !
-      - DB_PORT=3306
-      - DB_NAME=mabase
-      - DB_USER=root
-      - DB_PASSWORD=root
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: mabase
+    # Nous ne mappons pas le port à l'extérieur car l'API y accède en interne
+    networks:
+      - app_network
+
+  # 2. Ton Backend Node.js (depuis GHCR)
+  backend:
+    # --- CHANGE ICI TON PSEUDO ET TON DEPOT ---
+    image: ghcr.io/ton-pseudo/ton-depot/backend:latest
+    environment:
+      DB_HOST: database # Le nom du service MariaDB
+      DB_PORT: 3306
+      DB_NAME: mabase
+      DB_USER: root
+      DB_PASSWORD: root
+    ports:
+      - 3000:3000 # On expose l'API sur le port 3000 de ton PC
+    depends_on:
+      - database
+    networks:
+      - app_network
+
+  # 3. Ton Frontend Nginx (depuis GHCR)
+  frontend:
+    # --- CHANGE ICI TON PSEUDO ET TON DEPOT ---
+    image: ghcr.io/theosykas/Automated-devops-workflow/frontend:latest
+    ports:
+      - 8080:80 # On expose le front sur le port 8080 de ton PC
+    networks:
+      - app_network
 
 networks:
-  github_network:
-    name: ${DOCKER_NETWORK} # Récupère dynamiquement le réseau de GitHub Actions !
-    external: true
+  app_network:
+    driver: bridge
