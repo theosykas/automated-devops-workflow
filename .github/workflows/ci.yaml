@@ -45,20 +45,6 @@
         run:
           working-directory: backend
 
-      # service for db
-      services:
-        mariadb:
-          image: mariadb:10.11
-
-      # injection des mdp Github Secrets ${{}} : secrets=natif:githubSecrets
-          env:
-              MARIADB_ROOT_PASSWORD: root
-              MARIADB_DATABASE: mabase
-
-          ports:
-            - 3306:3306
-          options: --health-cmd="mariadb-admin ping -proot" --health-interval=10s --health-timeout=5s --health-retries=3
-
       steps:
       - name: checkout backend
         uses: actions/checkout@v4
@@ -71,26 +57,8 @@
       - name: Install Backend dependencies
         run: npm ci
 
-      - name: Wait for MariaDB to be ready
-        run: |
-          sudo apt-get update && sudo apt-get install -y mysql-client
-          # Boucle qui attend que MariaDB réponde sur le port 3306
-          until mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do
-            echo "Attente du démarrage complet de MariaDB..."
-            sleep 2
-          done
-
-      - name: Initialize Database Schema
-        run: mysql -h 127.0.0.1 -u root -proot mabase < init.sql
-
       - name: Lunching Backend tests
         run: npm test run unit
-        env:
-            DB_HOST: 127.0.0.1
-            DB_PORT: 3306
-            DB_NAME: mabase
-            DB_USER: root
-            DB_PASSWORD: root
 
   # start uniquement si les test unitaires on etaient valider ou non
   # branche donc la db a l'image docker une fois son test unitaire passer pour voir si le reseau fonctionne
